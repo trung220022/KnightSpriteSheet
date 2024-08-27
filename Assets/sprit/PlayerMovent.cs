@@ -11,6 +11,7 @@ public class playerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
 
+
     private Rigidbody2D body;
     private Animator anim;
     private BoxCollider2D boxCollider;
@@ -23,9 +24,6 @@ public class playerMovement : MonoBehaviour
     private bool die;
     private bool hurt;
     private bool dizzy;
-
-
-
     private void Awake()
     {
         //Grab references for rigibody and animator from object
@@ -63,6 +61,8 @@ public class playerMovement : MonoBehaviour
 
             if (Input.GetKey(KeyCode.Space))
                 Jump();
+            if (Input.GetKey(KeyCode.W))
+                Jump();
         }
         else
             wallJumpCooldown += Time.deltaTime;
@@ -84,23 +84,29 @@ public class playerMovement : MonoBehaviour
         {
             block = false;
         }
-        if (Input.GetKeyDown (KeyCode.Q)) 
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             block = true;
         }
-        anim.SetBool("block",block);
+        anim.SetBool("block", block);
 
         //strike
-        if (Input.GetMouseButtonUp(1))
+        //if (Input.GetMouseButtonUp(1))
+        //{
+        //    strike = false;
+        //}
+
+        //if (Input.GetMouseButtonDown(1))
+        //{
+        //    strike = true;
+        //}
+        //anim.SetBool("strike", strike);
+
+        if (Input.GetKeyDown(KeyCode.V))
         {
-            strike = false;
+            anim.SetTrigger("strike1");
         }
-        
-        if (Input.GetMouseButtonDown(1)) 
-        {
-            strike = true;
-        }
-        anim.SetBool("strike", strike);
+
 
         //win
         if (Input.GetKeyUp(KeyCode.Alpha1))
@@ -145,7 +151,26 @@ public class playerMovement : MonoBehaviour
             dizzy = true;
         }
         anim.SetBool("dizzy", dizzy);
+
+        //dash
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            anim.SetTrigger("dash");
+        }
+
+        //cast
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            anim.SetTrigger("cast");
+        }
+
+        //jumpattack
+        if (Input.GetMouseButtonDown(1))
+        {
+            anim.SetTrigger("jumpattack");
+        }
     }
+
 
     private void Jump()
     {

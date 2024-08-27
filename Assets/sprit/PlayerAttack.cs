@@ -7,8 +7,6 @@ public class PlayerAttack : MonoBehaviour
     private playerMovement playerMovement;
     private float cooldownTimer = Mathf.Infinity;
 
-    private bool crouch;
-
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -19,23 +17,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && cooldownTimer > attackCooldown && playerMovement.canAttack()) 
             Attack();
-
-        if (Input.GetKeyUp(KeyCode.S))
-        {
-            crouch = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            crouch = true;
-        }
-
-
-
         cooldownTimer += Time.deltaTime;
-
-        anim.SetBool("crouch", crouch);
-
     }
     private void Attack()
     {

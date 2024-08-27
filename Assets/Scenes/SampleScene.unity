@@ -443,7 +443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  jumpPower: 10
+  jumpPower: 12
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -462,7 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29250f6d507202e4d870860e0ec68bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 0.5
+  attackCooldown: 0.3
 --- !u!1 &2141173682
 GameObject:
   m_ObjectHideFlags: 0

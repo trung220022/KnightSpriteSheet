@@ -5,15 +5,26 @@ using UnityEngine;
 
 public class playerMovement : MonoBehaviour
 {
+
     [SerializeField] private float speed;
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
+
     private Rigidbody2D body;
     private Animator anim;
     private BoxCollider2D boxCollider;
     private float wallJumpCooldown;
     private float horizontalInput;
+    private bool crouch;
+    private bool block;
+    private bool strike;
+    private bool win;
+    private bool die;
+    private bool hurt;
+    private bool dizzy;
+
+
 
     private void Awake()
     {
@@ -55,6 +66,85 @@ public class playerMovement : MonoBehaviour
         }
         else
             wallJumpCooldown += Time.deltaTime;
+
+        //crouch
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+            crouch = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            crouch = true;
+        }
+        anim.SetBool("crouch", crouch);
+
+        //block
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            block = false;
+        }
+        if (Input.GetKeyDown (KeyCode.Q)) 
+        {
+            block = true;
+        }
+        anim.SetBool("block",block);
+
+        //strike
+        if (Input.GetMouseButtonUp(1))
+        {
+            strike = false;
+        }
+        
+        if (Input.GetMouseButtonDown(1)) 
+        {
+            strike = true;
+        }
+        anim.SetBool("strike", strike);
+
+        //win
+        if (Input.GetKeyUp(KeyCode.Alpha1))
+        {
+            win = false;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            win = true;
+        }
+        anim.SetBool("win", win);
+
+        //die
+        if (Input.GetKeyUp(KeyCode.Alpha2))
+        {
+            die = false;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            die = true;
+        }
+        anim.SetBool("die", die);
+
+        //hurt
+        if (Input.GetKeyUp(KeyCode.Alpha3))
+        {
+            hurt = false;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            hurt = true;
+        }
+        anim.SetBool("hurt", hurt);
+
+        //dizzy
+        if (Input.GetKeyUp(KeyCode.Alpha4))
+        {
+            dizzy = false;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            dizzy = true;
+        }
+        anim.SetBool("dizzy", dizzy);
     }
 
     private void Jump()

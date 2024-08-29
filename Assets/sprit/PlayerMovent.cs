@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,6 +10,9 @@ public class playerMovement : MonoBehaviour
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private GameObject[] fireballs;
+    [SerializeField] private float castCooldown;
 
 
     private Rigidbody2D body;
@@ -19,17 +22,20 @@ public class playerMovement : MonoBehaviour
     private float horizontalInput;
     private bool crouch;
     private bool block;
-    private bool strike;
     private bool win;
     private bool die;
     private bool hurt;
     private bool dizzy;
+
+
+
     private void Awake()
     {
         //Grab references for rigibody and animator from object
         body = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
+        
     }
 
     private void Update()
@@ -45,6 +51,7 @@ public class playerMovement : MonoBehaviour
         // set animator paramters
         anim.SetBool("walk", horizontalInput != 0);
         anim.SetBool("grounded", isGrounded());
+
 
         //wall jump logic
         if (wallJumpCooldown > 0.2f)
@@ -158,19 +165,43 @@ public class playerMovement : MonoBehaviour
             anim.SetTrigger("dash");
         }
 
-        //cast
-        if (Input.GetKeyDown(KeyCode.F))
+        //attack
+        if (Input.GetMouseButtonDown(0))
         {
-            anim.SetTrigger("cast");
+            anim.SetTrigger("attack");
         }
 
         //jumpattack
-        if (Input.GetMouseButtonDown(1))
+        //if (Input.GetMouseButtonDown(1))
+        //{
+        //    anim.SetTrigger("jumpattack");
+        //}
+
+        //cast
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            anim.SetTrigger("jumpattack");
+            Cast();
         }
     }
+    private void Cast()
+    {
+        anim.SetTrigger("cast");
 
+
+        GameObject fireball = fireballs[FindFireball()];
+        fireball.transform.position = firePoint.position;
+        fireball.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+    }
+
+    private int FindFireball()
+    {
+        for (int i = 0; i < fireballs.Length; i++)
+        {
+            if (!fireballs[i].activeInHierarchy)
+                return i;
+        }
+        return 0;
+    }
 
     private void Jump()
     {

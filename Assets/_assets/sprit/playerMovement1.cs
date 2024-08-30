@@ -40,8 +40,15 @@ public class playerMovement1 : MonoBehaviour
 
     private void Update()
     {
-
-        horizontalInput = Input.GetAxis("Horizontal");
+        float horizontalInput = 0f;
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            horizontalInput = -1f; // Di chuyển sang trái
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            horizontalInput = 1f; // Di chuyển sang phải
+        }
 
         //flip player when moving left.right
         if (horizontalInput > 0.01f)
@@ -68,19 +75,19 @@ public class playerMovement1 : MonoBehaviour
             else
                 body.gravityScale = 5;
 
-            if (Input.GetKey(KeyCode.I))
+            if (Input.GetKey(KeyCode.UpArrow))
                 Jump();
         }
         else
             wallJumpCooldown += Time.deltaTime;
 
         //crouch
-        if (Input.GetKeyUp(KeyCode.K))
+        if (Input.GetKeyUp(KeyCode.DownArrow))
         {
             crouch1 = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             crouch1 = true;
         }

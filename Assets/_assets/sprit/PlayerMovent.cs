@@ -40,7 +40,15 @@ public class playerMovement : MonoBehaviour
 
     private void Update()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
+        float horizontalInput = 0f;
+        if (Input.GetKey(KeyCode.A))
+        {
+            horizontalInput = -1f; // Di chuyển sang trái
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            horizontalInput = 1f; // Di chuyển sang phải
+        }
 
         //flip player when moving left.right
         if (horizontalInput > 0.01f)
@@ -66,8 +74,7 @@ public class playerMovement : MonoBehaviour
             else
                 body.gravityScale = 5;
 
-            if (Input.GetKey(KeyCode.Space))
-                Jump();
+            
             if (Input.GetKey(KeyCode.W))
                 Jump();
         }

@@ -13,7 +13,7 @@ public class playerMovement : MonoBehaviour
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject[] fireballs;
     [SerializeField] private float castCooldown;
-
+    private float castTimer = 0f;
 
     private Rigidbody2D body;
     private Animator anim;
@@ -184,10 +184,12 @@ public class playerMovement : MonoBehaviour
         //    anim.SetTrigger("jumpattack");
         //}
 
+        castTimer += Time.deltaTime;
         //cast
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && castTimer >= castCooldown)
         {
             Cast();
+            castTimer = 0f;
         }
     }
     private void Cast()

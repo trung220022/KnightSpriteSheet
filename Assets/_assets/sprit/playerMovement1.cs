@@ -11,7 +11,7 @@ public class playerMovement1 : MonoBehaviour
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject[] fireballs;
     [SerializeField] private float attackCooldown;
-  
+    private float attackTimer = 0f;
 
 
     private Rigidbody2D body;
@@ -166,23 +166,22 @@ public class playerMovement1 : MonoBehaviour
             anim.SetTrigger("flykick1");
         }
 
+        attackTimer += Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && attackTimer >= attackCooldown) 
         {
             Attack1();
+            attackTimer = 0f;
         }
-           
-
-
 
     }
+
     private void Attack1()
     {
         anim.SetTrigger("attack1");
 
-        GameObject fireball = fireballs[FindFireball()];
-        fireball.transform.position = firePoint.position;
-        fireball.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+        fireballs[FindFireball()].transform.position = firePoint.position;
+        fireballs[FindFireball()].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
     }
 
     private void Jump()
